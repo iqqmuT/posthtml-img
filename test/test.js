@@ -30,16 +30,19 @@ test('src and alt changed', (t) => {
 })
 
 test('image info is retrieved', (t) => {
-  const info = []
+  const infos = []
   return compare(t, 'info', {
     cache,
-    info
+    onInfo: (info, index) => {
+      infos[index] = info
+    }
   }, () => {
-    t.truthy(info.length === 2 &&
-      info[0].height > 0 &&
-      info[0].width > 0 &&
-      info[1].height > 0 &&
-      info[1].width > 0
+    t.truthy(infos.length === 2 &&
+      infos[0].height > 0 &&
+      infos[0].width > 0 &&
+      infos[0].src === 'https://www.wikipedia.org/portal/wikipedia.org/assets/img/Wikipedia-logo-v2.png' &&
+      infos[1].height > 0 &&
+      infos[1].width > 0
     )
   })
 })

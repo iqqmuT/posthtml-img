@@ -4,7 +4,11 @@
 [![Build][build]][build-badge]
 
 [PostHTML](https://github.com/posthtml/posthtml) plugin that manipulates `<img>` attributes.
-It fetches remote image dimensions and sets `width` and `height` attributes.
+It fetches remote image dimensions and sets `width` and `height` attributes
+automatically. Fetching is done efficiently, using
+[remote-file-info](https://www.npmjs.com/package/remote-file-info) that does
+not download entire images.
+
 You can also alter `src` and `alt` attributes based on image information.
 
 Before:
@@ -127,9 +131,9 @@ After:
 </div>
 ```
 
-### info
+### onInfo
 
-Plugin saves image information to given `options.info` array.
+Plugin sends image information to given `options.onInfo` callback function.
 
 Before:
 ``` html
@@ -144,10 +148,14 @@ Add option:
 const posthtml = require('posthtml');
 const posthtmlImg = require('posthtml-img');
 
-const info = [];
+const infos = [];
 
 posthtml()
-    .use(posthtmlImg({ info })
+    .use(posthtmlImg({
+      onInfo: (info, index) => {
+        infos[index] = info;
+      },
+    })
     .process(html)
     .then(() => console.log(info));
 ```
@@ -160,7 +168,7 @@ After:
 </div>
 ```
 
-`info` value:
+`infos` value:
 ``` js
 [
   {
