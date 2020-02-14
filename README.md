@@ -97,7 +97,7 @@ After:
 </div>
 ```
 
-### changeUrl
+### changeSrc
 
 Before:
 ``` html
