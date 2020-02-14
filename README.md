@@ -48,14 +48,7 @@ posthtml()
 
 ### cache
 
-html1:
-``` html
-<div>
-  <img src="https://server.com/image.png">
-</div>
-```
-
-Add option:
+Example:
 ``` js
 const posthtml = require('posthtml');
 const posthtmlImg = require('posthtml-img');
@@ -63,17 +56,14 @@ const posthtmlImg = require('posthtml-img');
 async function run() {
     const cache = {}; // cache object
 
-    const html1 = '<div><img src="https://server.com/image.png"></div>';
     await posthtml()
         .use(posthtmlImg({ cache })
-        .process(html1);
+        .process('<div><img src="https://server.com/image.png"></div>');
 
-    // the remote image info is already in cache,
-    // so running this is faster
-    const html2 = '<span><img src="https://server.com/image.png"></span>';
+    // the remote image info is already in cache, so 2nd run is faster
     await posthtml()
         .use(posthtmlImg({ cache })
-        .process(html2);
+        .process('<span><img src="https://server.com/image.png"></span>');
 }
 ```
 
@@ -141,7 +131,7 @@ After:
 
 Plugin saves image information to given `options.info` array.
 
-HTML:
+Before:
 ``` html
 <div>
   <img src="https://server.com/image1.png">
@@ -162,7 +152,15 @@ posthtml()
     .then(() => console.log(info));
 ```
 
-Output:
+After:
+``` html
+<div>
+  <img src="https://server.com/image1.png" width="183" height="200">
+  <img src="https://server.com/image2.jpg" width="2432" width="4320">
+</div>
+```
+
+`info` value:
 ``` js
 [
   {
