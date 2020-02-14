@@ -1,7 +1,7 @@
 {
   "name": "posthtml-img",
   "description": "PostHTML plugin for img tag manipulation",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Tuomas Jaakola <tuomas.jaakola@iki.fi>",
   "ava": {
     "verbose": "true"
