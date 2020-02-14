@@ -1,5 +1,12 @@
+## <small>0.2.1 (2020-02-14)</small>
+
+* build: remote-file-info@1.0.1 ([5786d2c](https://github.com/iqqmuT/posthtml-img/commit/5786d2c))
+
+
+
 ## 0.2.0 (2020-02-14)
 
+* 0.2.0 ([648af73](https://github.com/iqqmuT/posthtml-img/commit/648af73))
 * build: info option changed to onInfo callback ([388934a](https://github.com/iqqmuT/posthtml-img/commit/388934a))
 
 
