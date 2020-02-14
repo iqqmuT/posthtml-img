@@ -27,7 +27,9 @@ After:
 
 ## Install
 
-> npm i posthtml posthtml-img
+``` bash
+npm i posthtml posthtml-img
+```
 
 ## Usage
 
@@ -40,6 +42,147 @@ posthtml()
     .use(posthtmlImg({ /* options */ }))
     .process(html/*, options */)
     .then(result => fs.writeFileSync('./after.html', result.html));
+```
+
+## Options
+
+### cache
+
+html1:
+``` html
+<div>
+  <img src="https://server.com/image.png">
+</div>
+```
+
+Add option:
+``` js
+const posthtml = require('posthtml');
+const posthtmlImg = require('posthtml-img');
+
+async function run() {
+    const cache = {}; // cache object
+
+    const html1 = '<div><img src="https://server.com/image.png"></div>';
+    await posthtml()
+        .use(posthtmlImg({ cache })
+        .process(html1);
+
+    // the remote image info is already in cache,
+    // so running this is faster
+    const html2 = '<span><img src="https://server.com/image.png"></span>';
+    await posthtml()
+        .use(posthtmlImg({ cache })
+        .process(html2);
+}
+```
+
+### changeAlt
+
+Before:
+``` html
+<div>
+  <img src="https://server.com/image.jpg">
+</div>
+```
+
+Add option:
+``` js
+const fs = require('fs');
+const posthtml = require('posthtml');
+const posthtmlImg = require('posthtml-img');
+
+posthtml()
+    .use(posthtmlImg({
+      changeAlt: (alt, src, index) => 'This is an image.'
+    }))
+    .process(html)
+    .then(result => fs.writeFileSync('./after.html', result.html));
+```
+
+After:
+``` html
+<div>
+  <img src="https://server.com/image.jpg" width="120" height="40" alt="This is an image.">
+</div>
+```
+
+### changeUrl
+
+Before:
+``` html
+<div>
+  <img src="https://server.com/image.jpg">
+</div>
+```
+
+Add option:
+``` js
+const fs = require('fs');
+const posthtml = require('posthtml');
+const posthtmlImg = require('posthtml-img');
+
+posthtml()
+    .use(posthtmlImg({
+      changeSrc: (src, index) => src.replace('image.jpg', 'changed.png')
+    }))
+    .process(html)
+    .then(result => fs.writeFileSync('./after.html', result.html));
+```
+
+After:
+``` html
+<div>
+  <img src="https://server.com/changed.png" width="120" height="40">
+</div>
+```
+
+### info
+
+Plugin saves image information to given `options.info` array.
+
+HTML:
+``` html
+<div>
+  <img src="https://server.com/image1.png">
+  <img src="https://server.com/image2.jpg">
+</div>
+```
+
+Add option:
+``` js
+const posthtml = require('posthtml');
+const posthtmlImg = require('posthtml-img');
+
+const info = [];
+
+posthtml()
+    .use(posthtmlImg({ info })
+    .process(html)
+    .then(() => console.log(info));
+```
+
+Output:
+``` js
+[
+  {
+    height: 183,
+    width: 200,
+    type: 'png',
+    fileSize: 15829,
+    mediaType: 'image/png',
+    src: 'https://server.com/image1.png'
+  },
+  {
+    height: 2432,
+    orientation: 1,
+    width: 4320,
+    type: 'jpg',
+    fileSize: 6202507,
+    mediaType: 'image/jpeg',
+    src: 'https://server.com/image2.jpg'
+  }
+]
 ```
 
 ### Contributing
