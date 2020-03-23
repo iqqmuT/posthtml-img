@@ -1,5 +1,12 @@
+## <small>0.2.2 (2020-03-23)</small>
+
+* build: vulnerabilities fix and remote-file-info upgrade ([4c948dd](https://github.com/iqqmuT/posthtml-img/commit/4c948dd))
+
+
+
 ## <small>0.2.1 (2020-02-14)</small>
 
+* 0.2.1 ([3f356a1](https://github.com/iqqmuT/posthtml-img/commit/3f356a1))
 * build: remote-file-info@1.0.1 ([5786d2c](https://github.com/iqqmuT/posthtml-img/commit/5786d2c))
 
 
